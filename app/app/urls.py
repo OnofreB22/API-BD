@@ -29,5 +29,5 @@ urlpatterns = [
         SpectacularSwaggerView.as_view(url_name='api-schema'),
         name='api-docs',
     ),
-    path('api/ocupacion/', include('ocupacion.urls')),
+    path('api/reserva_canchas/', include('reservacanchas.urls')),
 ]

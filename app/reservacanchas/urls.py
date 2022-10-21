@@ -8,13 +8,14 @@ from django.urls import (
 
 from rest_framework.routers import DefaultRouter
 
-from ocupacion import views
+from reservacanchas import views
 
 
 router = DefaultRouter()
 router.register('ocupacion', views.OcupacionViewSet)
+router.register('personas', views.PersonasViewSet)
 
-app_name = 'recipe'
+app_name = 'Reserva_Canchas'
 
 urlpatterns = [
     path('', include(router.urls)),
