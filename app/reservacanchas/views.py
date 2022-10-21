@@ -1,7 +1,14 @@
 from rest_framework import viewsets
 from rest_framework.response import Response
 
-from core.models import Ocupaciones, Personas
+from core.models import (
+    Ocupaciones,
+    Personas,
+    Canchas,
+    Implementos,
+    Reserva
+    )
+
 from reservacanchas import serializers
 
 
@@ -15,18 +22,6 @@ class OcupacionViewSet(viewsets.ModelViewSet):
         serializer = serializers.OcupacionSerializer(queryset, many=True)
         return Response(serializer.data)
 
-    def destroy(self, request, pk=None):
-        """Handle removing an object"""
-        return Response({'http_method': 'DELETE'})
-
-    def put(self, request, pk=None):
-        """Handle updating an object"""
-        return Response({'method': 'PUT'})
-
-    def patch(self, request, pk=None):
-        """Handle a partial update of an object"""
-        return Response({'method': 'PATCH'})
-
 
 class PersonasViewSet(viewsets.ModelViewSet):
     """View de Personas APIs"""
@@ -38,14 +33,35 @@ class PersonasViewSet(viewsets.ModelViewSet):
         serializer = serializers.PersonaSerializer(queryset, many=True)
         return Response(serializer.data)
 
-    def put(self, request, pk=None):
-        """Handle updating an object"""
-        return Response({'method': 'PUT'})
 
-    def patch(self, request, pk=None):
-        """Handle a partial update of an object"""
-        return Response({'method': 'PATCH'})
+class CanchasViewSet(viewsets.ModelViewSet):
+    """View de Canchas APIs"""
+    serializer_class = serializers.CanchaSerializer
+    queryset = Canchas.objects.all()
 
-    def destroy(self, request, pk=None):
-        """Handle removing an object"""
-        return Response({'http_method': 'DELETE'})
+    def list(self, request):
+        queryset = Canchas.objects.all()
+        serializer = serializers.CanchaSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+
+class ImplementosViewSet(viewsets.ModelViewSet):
+    """View de Implementos APIs"""
+    serializer_class = serializers.ImplementoSerializer
+    queryset = Implementos.objects.all()
+
+    def list(self, request):
+        queryset = Implementos.objects.all()
+        serializer = serializers.ImplementoSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+
+class ReservasViewSet(viewsets.ModelViewSet):
+    """View de Reserva APIs"""
+    serializer_class = serializers.ReservaSerializer
+    queryset = Reserva.objects.all()
+
+    def list(self, request):
+        queryset = Reserva.objects.all()
+        serializer = serializers.ReservaSerializer(queryset, many=True)
+        return Response(serializer.data)
