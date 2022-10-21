@@ -12,14 +12,17 @@ from reservacanchas import views
 
 
 router = DefaultRouter()
-router.register('ocupacion', views.OcupacionViewSet)
-router.register('personas', views.PersonasViewSet)
-router.register('canchas', views.CanchasViewSet)
-router.register('implementos', views.ImplementosViewSet)
-router.register('reservas', views.ReservasViewSet)
+router.register('ocupacion', views.OcupacionViewSet, basename='ocupacion')
+router.register('personas', views.PersonasViewSet, basename='personas')
+router.register('canchas', views.CanchasViewSet, basename='canchas')
+router.register(
+    'implementos',
+    views.ImplementosViewSet,
+    basename='implementos'
+    )
+router.register('reservas', views.ReservasViewSet, basename='reservas')
 
-
-app_name = 'Reserva_Canchas'
+app_name = 'reservacanchas'
 
 urlpatterns = [
     path('', include(router.urls)),

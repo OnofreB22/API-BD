@@ -1,4 +1,5 @@
 from rest_framework import viewsets
+from rest_framework import status
 from rest_framework.response import Response
 
 from core.models import (
@@ -16,11 +17,6 @@ class OcupacionViewSet(viewsets.ModelViewSet):
     """View de Ocupacion APIs"""
     serializer_class = serializers.OcupacionSerializer
     queryset = Ocupaciones.objects.all()
-
-    def list(self, request):
-        queryset = Ocupaciones.objects.all()
-        serializer = serializers.OcupacionSerializer(queryset, many=True)
-        return Response(serializer.data)
 
 
 class PersonasViewSet(viewsets.ModelViewSet):

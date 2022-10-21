@@ -54,6 +54,7 @@ class CanchaSerializer(serializers.ModelSerializer):
             'tamano',
         ]
 
+
 class ImplementoSerializer(serializers.ModelSerializer):
     """Serializer del objeto implemento"""
 
@@ -66,6 +67,7 @@ class ImplementoSerializer(serializers.ModelSerializer):
             'red',
             'arco',
         ]
+
 
 class ReservaSerializer(serializers.ModelSerializer):
     """Serializer del objeto reserva"""
