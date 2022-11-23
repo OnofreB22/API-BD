@@ -48,10 +48,11 @@
             </select><br>
             <button type="submit">Enviar</button><br>
         </form>
-        <p id="suc">Registro exitoso!!!!</p>
+        <p id="suc"></p>
         <script>
             const ocupacion = document.getElementById('ocupacion');
             const persona = document.getElementById('persona');
+            const suc = document.getElementById('suc');
 
             ocupacion.addEventListener('submit', function(e){
                 e.preventDefault();
@@ -82,13 +83,16 @@
                         method: "POST",
                         body: personaPayload,
                     })
-                    .then(res => res.json())
-                    .then(data => {
-                        console.log(data);
-                        var suc = document.getElementById('suc');
+                    .then(res => {
+                        if(!res.ok){
+                            suc.innerHTML = 'Error '+res.status+' '+ res.statusText
+                        }else{
+                            suc.innerHTML = res.status+' '+res.statusText
+                        }
                         suc.style.visibility = 'visible';
                     })
-                    .catch(err => console.log);
+                    .then(data => console.log(data))
+                    .catch(err => console.log(err));
 
                 })
                 .catch(err => console.log(err));

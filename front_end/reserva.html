@@ -34,9 +34,10 @@
             <input type="datetime-local" name="fecha_reserva" required><br>
             <button type="submit">Enviar</button>
         </form>
-        <p id="suc">Reserva exitosa!!!</p>
+        <p id="suc"></p>
         <script>
             const reserva = document.getElementById('reserva');
+            const suc = document.getElementById('suc');
 
             reserva.addEventListener('submit', function(e){
                 e.preventDefault();
@@ -52,12 +53,15 @@
                     method:"POST",
                     body: payload,
                 })
-                .then(res => res.json())
-                .then(data => {
-                    console.log(data);
-                    var suc = document.getElementById('suc');
+                .then(res => {
+                    if(!res.ok){
+                        suc.innerHTML = 'Error '+res.status+' '+ res.statusText
+                    }else{
+                        suc.innerHTML = res.status+' '+res.statusText
+                    }
                     suc.style.visibility = 'visible';
                 })
+                .then(data => console.log(data))
                 .catch(err => console.log(err));
             })
         </script>
