@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="estilos.css">
+    <title>Creacion de Usuario</title>
+</head>
+<body>
+    <header>
+        <a href="index.html" class="logo">
+            <img src="logo.png" alt="Logo EAFIT">
+            <h2 class="Slogan">Inspira Crea Transforma</h2>
+        </a>
+        <nav>
+            <a href="index.html" class="nav-link">Inicio</a>
+            <a href="" class="nav-link">Sobre Nosotros</a>
+            <a href="" class="nav-link">Contacto</a>
+        </nav>
+    </header>
+    <div>
+        <form id="persona">
+            <label>Cedula</label><br>
+            <input type="number" name="cedula" required><br>
+            <label>Nombre</label><br>
+            <input type="text" name="nombre" required><br>
+            <label>Apellido</label><br>
+            <input type="text" name="apellido" required><br>
+            <label>Numero de Celular</label><br>
+            <input type="phone" name="numero_de_celular" required><br>
+            <label>Correo</label><br>
+            <input type="text" name="correo" required><br>
+            <label>Tipo de ocupacion</label><br>
+            <input type="text" name="tipo_de_ocupacion" required><br>
+            <label>Genero</label><br>
+            <input type="text" name="genero" required><br>
+        </form>
+        <form id="ocupacion">
+            <label>Departamento</label><br>
+            <input type="text" name="departamento" required><br>
+            <label>Carrera</label><br>
+            <input type="text" name="carrera" required><br>
+            <label>Persona Exterior</label><br>
+            <select name="persona_exterior" required>
+                <option value="SI">Si</option>
+                <option value="NO">No</option>
+            </select><br>
+            <button type="submit">Enviar</button><br>
+        </form>
+        <p id="suc">Registro exitoso!!!!</p>
+        <script>
+            const ocupacion = document.getElementById('ocupacion');
+            const persona = document.getElementById('persona');
+
+            ocupacion.addEventListener('submit', function(e){
+                e.preventDefault();
+
+                const prePayload = new FormData(ocupacion);
+                const payload = new URLSearchParams(prePayload);
+                var id;
+
+                const personaPrePayload = new FormData(persona);
+
+                console.log([...payload])
+
+                fetch(
+                    "http://127.0.0.1:8000/api/reserva_canchas/ocupacion/", {
+                    method:"POST",
+                    body: payload,
+                })
+                .then(res => res.json())
+                .then(data =>{
+                    id = data.id;
+
+                    personaPrePayload.append('ocupacion',id);
+                    const personaPayload = new URLSearchParams(personaPrePayload);
+                    console.log([...personaPayload]);
+
+                    fetch(
+                        "http://127.0.0.1:8000/api/reserva_canchas/personas/", {
+                        method: "POST",
+                        body: personaPayload,
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log(data);
+                        var suc = document.getElementById('suc');
+                        suc.style.visibility = 'visible';
+                    })
+                    .catch(err => console.log);
+
+                })
+                .catch(err => console.log(err));
+            })
+        </script>
+    </div>
+</body>
+</html>

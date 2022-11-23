@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="estilos.css">
+    <title>Reservas</title>
+</head>
+<body>
+    <header>
+        <a href="index.html" class="logo">
+            <img src="logo.png" alt="Logo EAFIT">
+            <h2 class="Slogan">Inspira Crea Transforma</h2>
+        </a>
+        <nav>
+            <a href="index.html" class="nav-link">Inicio</a>
+            <a href="" class="nav-link">Sobre Nosotros</a>
+            <a href="" class="nav-link">Contacto</a>
+        </nav>
+    </header>
+    <div>
+        <form id="reserva">
+            <label>Cedula</label><br>
+            <input type="number" name="personas_cedula" required><br>
+            <label>Cancha</label><br>
+            <select name="canchas_codigo" required>
+                <option value=0>Cancha de Volleyball</option>
+                <option value=1>Cancha de Baloncesto</option>
+                <option value=2>Cancha de Futbol</option>
+                <option value=3>Cancha de Tenis</option>
+            </select><br>
+            <label>Fecha de reserva</label><br>
+            <input type="datetime-local" name="fecha_reserva" required><br>
+            <button type="submit">Enviar</button>
+        </form>
+        <p id="suc">Reserva exitosa!!!</p>
+        <script>
+            const reserva = document.getElementById('reserva');
+
+            reserva.addEventListener('submit', function(e){
+                e.preventDefault();
+
+                const prePayload = new FormData(reserva);
+                prePayload.append('disponibilidad','SI');
+                const payload = new URLSearchParams(prePayload);
+
+                console.log([...payload])
+
+                fetch(
+                    "http://127.0.0.1:8000/api/reserva_canchas/reservas/", {
+                    method:"POST",
+                    body: payload,
+                })
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                    var suc = document.getElementById('suc');
+                    suc.style.visibility = 'visible';
+                })
+                .catch(err => console.log(err));
+            })
+        </script>
+    </div>
+</body>
+</html>
